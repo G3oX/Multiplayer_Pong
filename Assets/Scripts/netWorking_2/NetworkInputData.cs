@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using Fusion;
 
-namespace networking
+namespace networking_2
 {
     public struct NetworkInputData : INetworkInput
     {
-        public Vector2 direction;
+        public float direction;
     }
 }
 

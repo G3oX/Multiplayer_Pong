@@ -24,7 +24,6 @@ namespace networking
 
         #region Networking Variables
 
-        private NetworkRunner _runner;
         [Space(5f)]
         [Header("NETWORKING")]
         [Space(1f)]
@@ -35,8 +34,25 @@ namespace networking
         #region Private Variables
 
         private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+        private NetworkRunner _runner;
 
         #endregion
+
+        private void OnGUI()
+        {
+            if (_runner == null)
+            {
+                if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
+                {
+                    StartGame(GameMode.Host);
+                }
+                if (GUI.Button(new Rect(0, 40, 200, 40), "Join"))
+                {
+                    StartGame(GameMode.Client);
+                }
+            }
+        }
+
 
         public async void StartGame(GameMode mode)
         {
@@ -92,11 +108,21 @@ namespace networking
             input.Set(data);
         }
         public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
-        public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
-        public void OnConnectedToServer(NetworkRunner runner) { }
-        public void OnDisconnectedFromServer(NetworkRunner runner) { }
-        public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
-        public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
+        public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) {
+            Debug.Log("OnShutDown");
+        }
+        public void OnConnectedToServer(NetworkRunner runner) {
+            Debug.Log("OnConnectedToServer");
+        }
+        public void OnDisconnectedFromServer(NetworkRunner runner) {
+            Debug.Log("OnDisconnectedFromServer");
+        }
+        public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) {
+            Debug.Log("OnConnectRequest");
+        }
+        public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) {
+            Debug.Log("OnConnectFailed");
+        }
         public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
         public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
         public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
