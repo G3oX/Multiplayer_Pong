@@ -16,7 +16,10 @@ namespace Multiplayer
         public NetworkPlayer playerPrefab;
 
         [Header("Spawn Point")]
-        [SerializeField] Transform spawnPosition;
+        [SerializeField] Vector2[] spawnPosition = new Vector2[1];
+        private int spawnPositionIndex;
+       
+
         [Tooltip("Radio del GIZMO que representa el punto de reaparición")]
         [SerializeField] float radius;
 
@@ -29,6 +32,11 @@ namespace Multiplayer
         void Start()
         {
 
+        }
+
+        void Awake()
+        {
+            spawnPositionIndex = 0;
         }
 
         // Update is called once per frame
@@ -44,8 +52,10 @@ namespace Multiplayer
         {
             if (runner.IsServer)
             {
-                Debug.Log("OnPlayerJoined. Host has join. Spawn player");
-                runner.Spawn(playerPrefab, spawnPosition.position, Quaternion.identity, player);
+                Debug.Log("OnPlayerJoined. Player has join. Spawn player");                   
+                runner.Spawn(playerPrefab, spawnPosition[spawnPositionIndex], Quaternion.identity, player);
+                spawnPositionIndex++;
+
             }
             else Debug.Log("OnPlayerJoined");
         }
@@ -134,7 +144,9 @@ namespace Multiplayer
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(spawnPosition.position, radius);
+            Gizmos.DrawWireSphere(spawnPosition[0], radius);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(spawnPosition[1], radius);
         }
 
         #endregion

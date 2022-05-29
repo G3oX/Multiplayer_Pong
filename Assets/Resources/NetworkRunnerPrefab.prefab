@@ -57,5 +57,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 63810127319904553, guid: 8671d9787efe04e488bf917819a461fb, type: 3}
-  spawnPosition: {fileID: 2195350833454929101, guid: fa1dcb58a1f03a74e8c85a9f45d1d9d8, type: 3}
+  turnManager: {fileID: 0}
+  spawnPosition:
+  - {x: -4, y: -4}
+  - {x: 4, y: -4}
   radius: 0.3

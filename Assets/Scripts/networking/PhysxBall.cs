@@ -8,17 +8,19 @@ namespace networking
 {
     public class PhysxBall : NetworkBehaviour
     {
-        [Networked] private TickTimer life { get; set; }
+        [SerializeField] string scoreColliderTag = "ScoreCollider";
 
-        public void Init()
+        public void Deactivate()
         {
-            life = TickTimer.CreateFromSeconds(Runner, 5.0f);
+            gameObject.SetActive(false);
         }
 
-        public override void FixedUpdateNetwork()
+        private void OnTriggerEnter(Collider other)
         {
-            if (life.Expired(Runner))
-                Runner.Despawn(Object);
+            if(other.tag == scoreColliderTag)
+            {
+                Deactivate();
+            }
         }
     }
 

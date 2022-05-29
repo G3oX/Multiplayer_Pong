@@ -17,18 +17,6 @@ namespace Multiplayer
             _networkCharacterController = GetComponent<NetworkCharacterControllerPrototypeEdited>();
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         // NETWORK
         public override void FixedUpdateNetwork()
         {

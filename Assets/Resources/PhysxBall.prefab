@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7063193065996875093}
+  - component: {fileID: 1031040877913383911}
   - component: {fileID: 8329135461327599604}
   - component: {fileID: 4919266521431801686}
   - component: {fileID: 3923123396050505500}
-  - component: {fileID: 1031040877913383911}
-  - component: {fileID: 538947307532121060}
+  - component: {fileID: 4281856049669208461}
   m_Layer: 0
   m_Name: PhysxBall
-  m_TagString: Untagged
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,13 +29,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 438943049482542465}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.34, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7785658729358978283}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1031040877913383911
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438943049482542465}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.2
 --- !u!50 &8329135461327599604
 Rigidbody2D:
   serializedVersion: 4
@@ -106,25 +122,9 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 4919266521431801686}
-  - {fileID: 538947307532121060}
+  - {fileID: 4281856049669208461}
   SimulationBehaviours: []
---- !u!58 &1031040877913383911
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 438943049482542465}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
---- !u!114 &538947307532121060
+--- !u!114 &4281856049669208461
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,10 +133,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 438943049482542465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bb2f27d845ba44498fc7f6b24c106df, type: 3}
+  m_Script: {fileID: 11500000, guid: f26ded99cf838eb479e7579b2c42cbdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  scoreColliderTag: ScoreCollider
 --- !u!1 &8925038071161417297
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +164,7 @@ Transform:
   m_GameObject: {fileID: 8925038071161417297}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 7063193065996875093}
   m_RootOrder: 0

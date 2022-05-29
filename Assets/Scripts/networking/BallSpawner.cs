@@ -35,7 +35,7 @@ namespace networking
                     (_runner, o) =>
                     {
                          // Initialize the Ball before synchronizing it
-                         o.GetComponent<PhysxBall>().Init();
+                         //o.GetComponent<PhysxBall>().Init();
                     });
             }          
         }
