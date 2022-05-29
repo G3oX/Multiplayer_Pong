@@ -20,6 +20,7 @@ namespace Multiplayer
                 Debug.Log("BALL COLLISION WITH PLAYER");
                 shootBall(getCollisionVector(collision), collision);
 
+                TurnsManager.Instance.switchTurns();
             }
         }
 

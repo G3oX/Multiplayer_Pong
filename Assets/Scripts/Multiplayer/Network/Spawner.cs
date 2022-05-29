@@ -31,12 +31,12 @@ namespace Multiplayer
         // Start is called before the first frame update
         void Start()
         {
-
+            spawnPositionIndex = 0;
         }
 
         void Awake()
         {
-            spawnPositionIndex = 0;
+            
         }
 
         // Update is called once per frame
@@ -53,7 +53,10 @@ namespace Multiplayer
             if (runner.IsServer)
             {
                 Debug.Log("OnPlayerJoined. Player has join. Spawn player");                   
-                runner.Spawn(playerPrefab, spawnPosition[spawnPositionIndex], Quaternion.identity, player);
+                NetworkPlayer newPlayer = runner.Spawn(playerPrefab, spawnPosition[spawnPositionIndex], Quaternion.identity, player);
+
+                TurnsManager.Instance.addPlayer(newPlayer, spawnPositionIndex);
+                Debug.Log("SpawnIndex" + spawnPositionIndex);
                 spawnPositionIndex++;
 
             }

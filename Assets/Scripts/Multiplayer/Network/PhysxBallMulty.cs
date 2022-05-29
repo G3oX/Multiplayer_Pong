@@ -56,6 +56,7 @@ namespace Multiplayer
             Debug.Log("COLISION CON SCORE COLLIDER");
             if (other.gameObject.tag == scoreColliderTag)
             {
+                TurnsManager.Instance.switchTurns();
                 _isActivate = false;
             }
         }

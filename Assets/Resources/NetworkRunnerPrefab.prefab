@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 63810127319904553, guid: 8671d9787efe04e488bf917819a461fb, type: 3}
-  turnManager: {fileID: 0}
+  _turnsManager: {fileID: 0}
   spawnPosition:
   - {x: -4, y: -4}
   - {x: 4, y: -4}
