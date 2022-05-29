@@ -56,8 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 577fb5a806d8a9243a62d6d1aa2a18d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 63810127319904553, guid: 8671d9787efe04e488bf917819a461fb, type: 3}
-  _turnsManager: {fileID: 0}
+  playerPrefab: {fileID: 63810127319904553, guid: c10be1cb7e9da844f9b71c247017f0c7, type: 3}
   spawnPosition:
   - {x: -4, y: -4}
   - {x: 4, y: -4}

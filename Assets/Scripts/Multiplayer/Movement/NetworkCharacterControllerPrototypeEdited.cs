@@ -35,12 +35,12 @@ public class NetworkCharacterControllerPrototypeEdited : NetworkTransform {
   /// </summary>
   protected override Vector3 DefaultTeleportInterpolationAngularVelocity => new Vector3(0f, 0f, rotationSpeed);
 
-  public CharacterController Controller { get; private set; }
+  public CharacterController Controller { get; set; }
 
   protected override void Awake() {
     base.Awake();
     CacheController();
-  }
+    }
 
   public override void Spawned() {
     base.Spawned();
@@ -53,6 +53,7 @@ public class NetworkCharacterControllerPrototypeEdited : NetworkTransform {
   private void CacheController() {
     if (Controller == null) {
       Controller = GetComponent<CharacterController>();
+      
 
       Assert.Check(Controller != null, $"An object with {nameof(NetworkCharacterControllerPrototype)} must also have a {nameof(CharacterController)} component.");
     }
@@ -67,7 +68,8 @@ public class NetworkCharacterControllerPrototypeEdited : NetworkTransform {
 
     // Re-enable CC
     Controller.enabled = true;
-  }
+
+    }
 
   /// <summary>
   /// Basic implementation of a jump impulse (immediately integrates a vertical component to Velocity).

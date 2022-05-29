@@ -9,12 +9,14 @@ namespace Multiplayer
     public class CharacterMovementHandler : NetworkBehaviour
     {
 
-        NetworkCharacterControllerPrototypeEdited _networkCharacterController;
+        //NetworkCharacterControllerPrototypeEdited _networkCharacterController;
+        MyNetworkCharacterController _networkCharacterController;
 
 
         private void Awake()
         {
-            _networkCharacterController = GetComponent<NetworkCharacterControllerPrototypeEdited>();
+            //_networkCharacterController = GetComponent<NetworkCharacterControllerPrototypeEdited>();
+            _networkCharacterController = GetComponent<MyNetworkCharacterController>();
         }
 
         // NETWORK

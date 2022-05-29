@@ -25,13 +25,14 @@ namespace Multiplayer
         private void Awake()
         {
             _instance = this;
+            //players = new List<NetworkPlayer>();
         }
 
-        NetworkPlayer[] players = new NetworkPlayer[2];
+        List<NetworkPlayer> players = new List<NetworkPlayer>();
 
         public void switchTurns()
         {
-            if(players.Length >= 2)
+            if(players.Count > 1)
             {
                 if(players[0].myTurn == false)
                 {
@@ -54,9 +55,9 @@ namespace Multiplayer
             }
         }
 
-        public void addPlayer(NetworkPlayer player, int index)
+        public void addPlayer(NetworkPlayer player)
         {
-            players[index] = player;
+            players.Add(player);
         }
 
     }

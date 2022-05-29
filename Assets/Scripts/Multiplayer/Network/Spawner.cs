@@ -55,7 +55,7 @@ namespace Multiplayer
                 Debug.Log("OnPlayerJoined. Player has join. Spawn player");                   
                 NetworkPlayer newPlayer = runner.Spawn(playerPrefab, spawnPosition[spawnPositionIndex], Quaternion.identity, player);
 
-                TurnsManager.Instance.addPlayer(newPlayer, spawnPositionIndex);
+                TurnsManager.Instance.addPlayer(newPlayer);
                 Debug.Log("SpawnIndex" + spawnPositionIndex);
                 spawnPositionIndex++;
 
