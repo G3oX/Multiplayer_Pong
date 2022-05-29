@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-namespace networking_2
+
+namespace Multiplayer
 {
     public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     {
@@ -14,19 +15,16 @@ namespace networking_2
             if (Object.HasInputAuthority)
             {
                 Local = this;
-                Debug.Log("You have spawn");
+                Debug.Log("Spawned Local Player");
             }
-            else Debug.Log("Other player has loged");
+            else Debug.Log("Spawned remote player");
         }
 
         public void PlayerLeft(PlayerRef player)
         {
             if (player == Object.InputAuthority)
-            {
                 Runner.Despawn(Object);
-            }
         }
-
     }
-
 }
+
