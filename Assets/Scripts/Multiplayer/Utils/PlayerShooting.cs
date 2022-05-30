@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
 
 namespace Multiplayer
 {
-    public class PlayerShooting : MonoBehaviour
+    public class PlayerShooting : SimulationBehaviour
     {
         // Componentes
         [SerializeField]PlayerScritableObject playerScriptableObject;
@@ -14,14 +15,18 @@ namespace Multiplayer
         // Start is called before the first frame update
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            // Si colisiona una bola entonces la disparamos
-            if (collision.gameObject.tag == "Ball")
+            if(Runner.IsServer)
             {
-                Debug.Log("BALL COLLISION WITH PLAYER");
-                shootBall(getCollisionVector(collision), collision);
+                // Si colisiona una bola entonces la disparamos
+                if (collision.gameObject.tag == "Ball")
+                {
+                    Debug.Log("BALL COLLISION WITH PLAYER");
+                    shootBall(getCollisionVector(collision), collision);
 
-                TurnsManager.Instance.switchTurns();
-            }
+                    TurnsManager.Instance.switchTurns();
+                }
+
+            }    
         }
 
         /// <summary>

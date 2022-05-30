@@ -13,6 +13,9 @@ namespace Multiplayer
         public float acceleration = 10.0f;
         public float braking = 10.0f;
         public float maxSpeed = 2.0f;
+        
+        [Tooltip("Limita el movimiento del jugador en el eje horizontal")]
+        [SerializeField] float horizontalLimits;
 
         [Networked]
         [HideInInspector]
@@ -24,49 +27,53 @@ namespace Multiplayer
         /// </summary>
         protected override Vector3 DefaultTeleportInterpolationVelocity => Velocity;
 
-
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-
-        public virtual void Move(Vector3 direction)
+        public virtual void Move(Vector2 direction)
         {
             var deltaTime = Runner.DeltaTime;
             var previousPos = transform.position;
             var moveVelocity = Velocity;
-
             direction = direction.normalized;
+            Debug.Log("moveVel default = " + moveVelocity + " x: " + moveVelocity.x + " y: " + moveVelocity.y);
+            Debug.Log("Direction ini = " + direction);
 
-            var horizontalVel = default(Vector3);
+            var horizontalVel = default(Vector2);
             horizontalVel.x = moveVelocity.x;
-            horizontalVel.z = moveVelocity.z;
+            Debug.Log("horizontalVel default = " + horizontalVel + " x: " + horizontalVel.x + " y: " + horizontalVel.y);
 
             if (direction == default)
             {
-                horizontalVel = Vector3.Lerp(horizontalVel, default, braking * deltaTime);
+                Debug.Log("Direction default = " + direction);
+                horizontalVel = Vector2.Lerp(horizontalVel, default, braking * deltaTime);
             }
             else
             {
-                horizontalVel = Vector3.ClampMagnitude(horizontalVel + direction * acceleration * deltaTime, maxSpeed);
+                horizontalVel = Vector2.ClampMagnitude(horizontalVel + direction * acceleration * deltaTime, maxSpeed);
                 //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Runner.DeltaTime);
             }
 
             moveVelocity.x = horizontalVel.x;
-            moveVelocity.z = horizontalVel.z;
 
             Velocity = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
 
-            transform.position += moveVelocity;
+            clampHorizontalPosition(moveVelocity);
+        }
+
+        private void clampHorizontalPosition(Vector3 moveVelocity)
+        {
+            if(transform.position.x <= horizontalLimits && transform.position.x >= -horizontalLimits)
+            {
+                transform.position += moveVelocity;
+            }
+            else if(transform.position.x > horizontalLimits) { transform.position = new Vector2(horizontalLimits,transform.position.y); }
+            else if (transform.position.x < -horizontalLimits) { transform.position = new Vector2(-horizontalLimits, transform.position.y); }
+
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(new Vector2(horizontalLimits, transform.position.y), 0.2f);
+            Gizmos.DrawSphere(new Vector2(-horizontalLimits, transform.position.y), 0.2f);
         }
     }
 

@@ -70,8 +70,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c80b535dbeef72546a6ce5a424d6854c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shootingVectorCorrection: {x: 0, y: 0.2}
-  _shootingForce: 10
   playerScriptableObject: {fileID: 11400000, guid: 93015bcb5307b334b8ab3975611a21ba, type: 2}
 --- !u!1 &7123403318261347431
 GameObject:
@@ -218,7 +216,8 @@ MonoBehaviour:
   - {fileID: 2963928828597772413}
   - {fileID: 4726183442350189080}
   - {fileID: 63810127319904553}
-  SimulationBehaviours: []
+  SimulationBehaviours:
+  - {fileID: 4724081881065494652}
 --- !u!143 &7123403319414355215
 CharacterController:
   m_ObjectHideFlags: 0

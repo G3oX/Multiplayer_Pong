@@ -30,52 +30,7 @@ namespace Multiplayer
             if (checkForActiveBall() == false)
                 firstball = true;
 
-            if(delayTimer.ExpiredOrNotRunning(Runner) || firstball)
-            {
-                // Reseteamos el timer
-                delayTimer = TickTimer.CreateFromSeconds(Runner, timeToSpawn);
-                firstball = false;
-
-                NetworkObject pollObject = GetFreeObject();
-
-                if (pollObject == null)
-                {
-                    Debug.Log("NULL - Creamos nueva bola");
-                    _ballPrefabPoll.Add(Runner.Spawn(_ballPrefab, transform.position, Quaternion.identity, Object.InputAuthority));
-                }
-                else
-                {
-                    pollObject.gameObject.SetActive(true);
-                    pollObject.GetComponent<NetworkTransform>().TeleportToPosition(transform.position);
-                }
-
-            }
-
-            #region OBSOLETO
-
-            //if(timer >= timeToSpawn)
-            //{
-
-            //    NetworkObject pollObject = GetFreeObject();
-
-            //    if (pollObject == null)
-            //    {
-            //        Debug.Log("NULL - Creamos nueva bola");
-            //        _ballPrefabPoll.Add(Runner.Spawn(_ballPrefab, transform.position, Quaternion.identity, Object.InputAuthority));
-            //    }
-            //    else
-            //    {
-            //        pollObject.gameObject.SetActive(true);
-            //        pollObject.transform.position = transform.position;
-            //    }
-
-            //    timer = 0f;
-            //    return;
-            //}
-
-            //timer += Runner.DeltaTime;
-
-            #endregion
+            spawnBall();
         }
 
         public NetworkObject GetFreeObject()
@@ -101,6 +56,30 @@ namespace Multiplayer
                 }
             }
             return activeBall;
+        }
+
+        private void spawnBall()
+        {
+            if (delayTimer.ExpiredOrNotRunning(Runner) || firstball)
+            {
+                // Reseteamos el timer
+                delayTimer = TickTimer.CreateFromSeconds(Runner, timeToSpawn);
+                firstball = false;
+
+                NetworkObject pollObject = GetFreeObject();
+
+                if (pollObject == null)
+                {
+                    Debug.Log("NULL - Creamos nueva bola");
+                    _ballPrefabPoll.Add(Runner.Spawn(_ballPrefab, transform.position, Quaternion.identity, Object.InputAuthority));
+                }
+                else
+                {
+                    pollObject.gameObject.SetActive(true);
+                    pollObject.GetComponent<NetworkTransform>().TeleportToPosition(transform.position);
+                }
+
+            }
         }
     }
 }

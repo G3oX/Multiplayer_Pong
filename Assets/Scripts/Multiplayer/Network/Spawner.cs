@@ -4,6 +4,7 @@ using UnityEngine;
 using Fusion;
 using Fusion.Sockets;
 using System;
+using UnityEngine.SceneManagement;
 
 
 namespace Multiplayer
@@ -94,6 +95,8 @@ namespace Multiplayer
 
         public void OnDisconnectedFromServer(NetworkRunner runner)
         {
+            SceneManager.LoadScene(1);
+
             Debug.Log("OnDisconnectedFromServer");
         }
         public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)

@@ -215,7 +215,8 @@ MonoBehaviour:
   - {fileID: 4726183442350189080}
   - {fileID: 63810127319904553}
   - {fileID: -5486337396448401645}
-  SimulationBehaviours: []
+  SimulationBehaviours:
+  - {fileID: 4724081881065494652}
 --- !u!114 &5038422426649558524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,4 +288,5 @@ MonoBehaviour:
   acceleration: 10
   braking: 200
   maxSpeed: 200
+  horizontalLimits: 7.8
   _Velocity: {x: 0, y: 0, z: 0}

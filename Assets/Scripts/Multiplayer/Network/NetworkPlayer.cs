@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using UnityEngine.SceneManagement;
 
 
 namespace Multiplayer
@@ -9,6 +10,8 @@ namespace Multiplayer
     public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     {
         // Variables
+
+
 
         // Network Variables
         public static NetworkPlayer Local { get; set; }
@@ -34,6 +37,7 @@ namespace Multiplayer
         {
             if (player == Object.InputAuthority)
                 Runner.Despawn(Object);
+
         }
 
         /// <summary>

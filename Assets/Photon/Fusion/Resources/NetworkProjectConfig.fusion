@@ -40,7 +40,7 @@
     "Simulation": {
         "InputDataWordCount": 0,
         "TickRate": 60,
-        "DefaultPlayers": 10,
+        "DefaultPlayers": 2,
         "ReplicationMode": 0,
         "ObjectInterest": false,
         "SimulationCulling": false,

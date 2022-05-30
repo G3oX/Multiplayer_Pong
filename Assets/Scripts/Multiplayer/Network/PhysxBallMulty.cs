@@ -13,6 +13,9 @@ namespace Multiplayer
         bool _addForce = false;
         Vector2 _forceVector = Vector2.zero;
 
+        // Un pequeño delay para que vuelva a detectar colisiones con el jugador
+        [Networked] TickTimer delayTimer { get; set; }
+
         //Componentes
 
         Rigidbody2D _ballRb;
@@ -24,6 +27,7 @@ namespace Multiplayer
         private void OnEnable()
         {
             _isActivate = true;
+            delayTimer = TickTimer.CreateFromSeconds(Runner, 0.2f);
         }
 
         public override void FixedUpdateNetwork()
@@ -33,9 +37,14 @@ namespace Multiplayer
                 Deactivate();
             }
 
-            if(_addForce)
+            if (_addForce)
             {
-                _ballRb.AddForce(_forceVector, ForceMode2D.Impulse);
+                // Añadimos un retardo para que la bola pueda ser lanzada de nuevo ( Evitar lanzamientos con fuerza doble al colisionar con dos jugadores a la vez )
+                if(delayTimer.ExpiredOrNotRunning(Runner))
+                {
+                    _ballRb.AddForce(_forceVector, ForceMode2D.Impulse);
+                    delayTimer = TickTimer.CreateFromSeconds(Runner, 0.2f);
+                }
                 _addForce = false;
             }
 
@@ -51,13 +60,16 @@ namespace Multiplayer
             gameObject.SetActive(false);
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter2D(Collider2D other) 
         {
-            Debug.Log("COLISION CON SCORE COLLIDER");
-            if (other.gameObject.tag == scoreColliderTag)
+            if(Runner.IsServer)
             {
-                TurnsManager.Instance.switchTurns();
-                _isActivate = false;
+                Debug.Log("COLISION CON SCORE COLLIDER");
+                if (other.gameObject.tag == scoreColliderTag)
+                {
+                    TurnsManager.Instance.switchTurns();
+                    _isActivate = false;
+                }
             }
         }
     }
