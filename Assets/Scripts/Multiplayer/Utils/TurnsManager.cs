@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
+using System.Linq;
 
 
 namespace Multiplayer
 {
-    public class TurnsManager : MonoBehaviour
+    public class TurnsManager : SimulationBehaviour
     {
+        //Variables
+
+        List<NetworkPlayer> players = new List<NetworkPlayer>();
 
         #region SINGLETON
 
@@ -31,33 +36,37 @@ namespace Multiplayer
             _instance = this;           
         }
 
-        List<NetworkPlayer> players = new List<NetworkPlayer>();
-
         public void switchTurns()
         {
-            if(players.Count > 1)
+
+            if (players.Count > 1)
+                switchTurns2players();
+            else
+                switchTurns1player();
+        }
+
+        public void switchTurns2players()
+        {
+            if (players[0].myTurn == false)
             {
-                if(players[0].myTurn == false)
-                {
-                    players[0].myTurn = true;
-                    players[1].myTurn = false;
-                }
-                else
-                {
-                    players[0].myTurn = false;
-                    players[1].myTurn = true;
-                }
+                players[0].myTurn = true;
+                players[1].myTurn = false;
             }
             else
             {
-                if (players[0].myTurn == false)
-                {
-                    players[0].myTurn = true;
-                }
-                else players[0].myTurn = false;
+                players[0].myTurn = false;
+                players[1].myTurn = true;
             }
         }
 
+        public void switchTurns1player()
+        {
+            if (players[0].myTurn == false) 
+                players[0].myTurn = true;
+            else
+                players[0].myTurn = false;
+        }
+            
         public void addPlayer(NetworkPlayer player)
         {
             players.Add(player);

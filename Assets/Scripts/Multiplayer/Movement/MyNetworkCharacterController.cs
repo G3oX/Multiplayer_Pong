@@ -33,16 +33,16 @@ namespace Multiplayer
             var previousPos = transform.position;
             var moveVelocity = Velocity;
             direction = direction.normalized;
-            Debug.Log("moveVel default = " + moveVelocity + " x: " + moveVelocity.x + " y: " + moveVelocity.y);
-            Debug.Log("Direction ini = " + direction);
+            //Debug.Log("moveVel default = " + moveVelocity + " x: " + moveVelocity.x + " y: " + moveVelocity.y);
+            //Debug.Log("Direction ini = " + direction);
 
             var horizontalVel = default(Vector2);
             horizontalVel.x = moveVelocity.x;
-            Debug.Log("horizontalVel default = " + horizontalVel + " x: " + horizontalVel.x + " y: " + horizontalVel.y);
+            //Debug.Log("horizontalVel default = " + horizontalVel + " x: " + horizontalVel.x + " y: " + horizontalVel.y);
 
             if (direction == default)
             {
-                Debug.Log("Direction default = " + direction);
+                //Debug.Log("Direction default = " + direction);
                 horizontalVel = Vector2.Lerp(horizontalVel, default, braking * deltaTime);
             }
             else

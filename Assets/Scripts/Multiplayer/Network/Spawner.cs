@@ -17,23 +17,24 @@ namespace Multiplayer
         public NetworkPlayer playerPrefab;
         private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
-        //public List<PlayerRef> playerRefList = new List<PlayerRef>();
-
         [Header("Spawn Point")]
         [SerializeField] Vector2[] spawnPosition = new Vector2[1];
         private int spawnPositionIndex;
-       
+
+        [Space(2f)]
+        [Header("Players Materials")]
+        [SerializeField] Color p1_normalMatcolor;
+        [SerializeField] Color p2_normalMatcolor;
+
 
         [Tooltip("Radio del GIZMO que representa el punto de reaparición")]
         [SerializeField] float radius;
 
         // privatdas
-
-        
+       
         
         //Otros Componentes
         CharacterInputHandler characterInputHandler;
-        NetworkGameManager gameManager;
 
         #endregion
 
@@ -45,7 +46,7 @@ namespace Multiplayer
 
         void Awake()
         {
-            gameManager = FindObjectOfType<NetworkGameManager>();
+
         }
 
         // Update is called once per frame
@@ -61,25 +62,36 @@ namespace Multiplayer
         {
             if (runner.IsServer)
             {
-                Debug.Log("OnPlayerJoined. Player has join. Spawn player");                   
+                Debug.Log("OnPlayerJoined. Player has join. Spawn player");
                 NetworkPlayer newPlayer = runner.Spawn(playerPrefab, spawnPosition[spawnPositionIndex], Quaternion.identity, player);
-
 
                 //Actualizmos lista y cantidad de jugadores en la sala
                 _spawnedCharacters.Add(player, newPlayer.Object);
 
-                gameManager.playersCount++;
-
+                //Añadimos el jugador a la lista de jugadores del TurnsManager
                 TurnsManager.Instance.addPlayer(newPlayer);
 
+                //Cambiamos la posición de respawn
                 Debug.Log("SpawnIndex" + spawnPositionIndex);
                 spawnPositionIndex++;
 
-                //playerRefList.Add(player);
-
-
+                //Asignamos materiales y turnos
+                if (/*_spawnedCharacters.Count < 2*/ spawnPositionIndex < 2)
+                {
+                    newPlayer.RPC_setUpMaterials(true);
+                }
+                else
+                {
+                    newPlayer.RPC_setUpMaterials(false);
+                }
             }
-            else Debug.Log("OnPlayerJoined");
+            else
+            {
+
+                Debug.Log("OnPlayerJoined");
+            }
+
+
         }
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -88,13 +100,7 @@ namespace Multiplayer
             {
                 runner.Despawn(networkObject);
                 _spawnedCharacters.Remove(player);
-                gameManager.playersCount--;
-                
-                //for (int i = 0; i < playerRefList.Count; i++)
-                //{
-                //    if (playerRefList[i] == player)
-                //        playerRefList.RemoveAt(i);
-                //}
+               
             }
         }
 

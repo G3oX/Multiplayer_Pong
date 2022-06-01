@@ -4,12 +4,14 @@ using UnityEngine;
 using Fusion;
 using TMPro;
 using local;
+using System.Linq;
 
 
 namespace Multiplayer
 {
     public class NetworkGameManager : NetworkBehaviour
     {
+
         [Header("Componentes HUD")]
         [SerializeField] TextMeshProUGUI _timerText;
         [SerializeField] float gameMinutes;
@@ -27,37 +29,32 @@ namespace Multiplayer
         [SerializeField] RoomManager roomManager;
 
         private bool _isGameStarted;       
-        private IEnumerator countDown_Corrutine;
-        
-        
+
+
         [HideInInspector]
-        [Networked]public int playersCount { get; set; }
+        public int playersCount => Runner.ActivePlayers.ToList().Count;
 
-        private void Awake()
-        {
-
-        }
 
         // Start is called before the first frame update
         public override void Spawned()
         {
-            playersCount = 0;
+            _countDownObj.SetActive(false);
             _isGameStarted = false;
             _ballSpawner.turnOFF_M();
-            countDown_Corrutine = StartcountDown();
         }
 
         // Update is called once per frame
     
         public override void FixedUpdateNetwork()
         {
-            //IEnumerable<PlayerRef> ActivePlayers = Runner.ActivePlayers;
+            //IEnumerable<PlayerRef> ActivePlayers = Runner.ActivePlayers.ToList();
             
             awaitingToPlayers();
 
-            if (!_isGameStarted) return;
+            if (!_isGameStarted) 
+                return;
 
-            StartCoroutine(countDown_Corrutine);
+            StartCoroutine(StartcountDown());
         }
 
         /// <summary>
@@ -84,13 +81,9 @@ namespace Multiplayer
         /// <returns></returns>
         public IEnumerator StartcountDown()
         {
-            if(!_countDownObj.activeInHierarchy)
-                _countDownObj.SetActive(true);
-            
-            yield return new WaitForSeconds(_countDownTime * Runner.DeltaTime);
-
-            if (_countDownObj.activeInHierarchy)
-                _countDownObj.SetActive(false);
+            _countDownObj.SetActive(true);
+            yield return new WaitForSeconds(_countDownTime);
+            _countDownObj.SetActive(false);
 
             _ballSpawner.Init();
         }

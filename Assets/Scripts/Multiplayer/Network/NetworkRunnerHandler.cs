@@ -17,6 +17,7 @@ namespace Multiplayer
         public RoomManager roomManager;
 
         NetworkRunner networkRunner;
+        [SerializeField] int _gameSceneIndex = 1;
 
         // Start is called before the first frame update
         void Start()
@@ -27,7 +28,7 @@ namespace Multiplayer
 
         public void Init()
         {
-            var clientTask = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex + 1, null);
+            var clientTask = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(), _gameSceneIndex, null);
 
             Debug.Log($"Server NetworkRunner started");
         }

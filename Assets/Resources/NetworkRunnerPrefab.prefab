@@ -60,4 +60,6 @@ MonoBehaviour:
   spawnPosition:
   - {x: -4, y: -4}
   - {x: 4, y: -4}
+  p1_normalMatcolor: {r: 0.23529413, g: 1, b: 0.078431375, a: 1}
+  p2_normalMatcolor: {r: 1, g: 0.64705884, b: 0, a: 1}
   radius: 0.3

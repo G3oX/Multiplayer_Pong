@@ -121,7 +121,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e2986ea5599e91747894713f7f9f6244, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -256,6 +256,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  _normalMat_p1: {fileID: 2100000, guid: cb5b5ac190b370c48afccf7868db531e, type: 2}
+  _activeMat_p1: {fileID: 2100000, guid: 707df6362332ed8419947b1e0755e0f5, type: 2}
+  _normalMat_p2: {fileID: 2100000, guid: e2986ea5599e91747894713f7f9f6244, type: 2}
+  _activeMat_p2: {fileID: 2100000, guid: ec2e6a31ce832984ebe26dcb443551f6, type: 2}
   _myTurn:
     _value: 0
   _playerCollider: {fileID: 7123403318081327557}

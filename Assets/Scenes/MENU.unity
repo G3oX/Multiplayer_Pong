@@ -1645,6 +1645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   networkRunnerPrefab: {fileID: 5491774043113375747, guid: 955a1ac74c6dead4586d761211a60b53, type: 3}
   roomManager: {fileID: 136903505902412241}
+  _gameSceneName: Multiplayer
 --- !u!1 &1239981165
 GameObject:
   m_ObjectHideFlags: 0
