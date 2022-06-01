@@ -7,12 +7,14 @@ using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using local;
 
 namespace Multiplayer
 {
     public class NetworkRunnerHandler : MonoBehaviour
     {
         public NetworkRunner networkRunnerPrefab;
+        public RoomManager roomManager;
 
         NetworkRunner networkRunner;
 
@@ -21,8 +23,11 @@ namespace Multiplayer
         {
             networkRunner = Instantiate(networkRunnerPrefab);
             networkRunner.name = "Network runner";
+        }
 
-            var clientTask = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex, null);
+        public void Init()
+        {
+            var clientTask = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex + 1, null);
 
             Debug.Log($"Server NetworkRunner started");
         }
@@ -44,12 +49,23 @@ namespace Multiplayer
                 GameMode = gameMode,
                 Address = address,
                 Scene = scene,
-                SessionName = "TestRoom",
+                PlayerCount = roomManager.maxPlayers,
+                SessionName = roomManager.roomName,
                 Initialized = initialized,
                 SceneObjectProvider = sceneObjectProvider
             });
      
         }
+
+#if UNITY_EDITOR
+        [ContextMenu("Activar multijugador")]
+        public void activeMultiplayer()
+        {
+            this.Init();
+        }
+
+#endif
+
 
     }
 

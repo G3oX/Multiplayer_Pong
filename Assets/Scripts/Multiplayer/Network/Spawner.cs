@@ -15,6 +15,9 @@ namespace Multiplayer
         #region VARIABLES
 
         public NetworkPlayer playerPrefab;
+        private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+
+        //public List<PlayerRef> playerRefList = new List<PlayerRef>();
 
         [Header("Spawn Point")]
         [SerializeField] Vector2[] spawnPosition = new Vector2[1];
@@ -24,8 +27,13 @@ namespace Multiplayer
         [Tooltip("Radio del GIZMO que representa el punto de reaparición")]
         [SerializeField] float radius;
 
+        // privatdas
+
+        
+        
         //Otros Componentes
         CharacterInputHandler characterInputHandler;
+        NetworkGameManager gameManager;
 
         #endregion
 
@@ -37,7 +45,7 @@ namespace Multiplayer
 
         void Awake()
         {
-            
+            gameManager = FindObjectOfType<NetworkGameManager>();
         }
 
         // Update is called once per frame
@@ -56,9 +64,19 @@ namespace Multiplayer
                 Debug.Log("OnPlayerJoined. Player has join. Spawn player");                   
                 NetworkPlayer newPlayer = runner.Spawn(playerPrefab, spawnPosition[spawnPositionIndex], Quaternion.identity, player);
 
+
+                //Actualizmos lista y cantidad de jugadores en la sala
+                _spawnedCharacters.Add(player, newPlayer.Object);
+
+                gameManager.playersCount++;
+
                 TurnsManager.Instance.addPlayer(newPlayer);
+
                 Debug.Log("SpawnIndex" + spawnPositionIndex);
                 spawnPositionIndex++;
+
+                //playerRefList.Add(player);
+
 
             }
             else Debug.Log("OnPlayerJoined");
@@ -66,13 +84,24 @@ namespace Multiplayer
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
         {
-            
+            if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
+            {
+                runner.Despawn(networkObject);
+                _spawnedCharacters.Remove(player);
+                gameManager.playersCount--;
+                
+                //for (int i = 0; i < playerRefList.Count; i++)
+                //{
+                //    if (playerRefList[i] == player)
+                //        playerRefList.RemoveAt(i);
+                //}
+            }
         }
 
         public void OnInput(NetworkRunner runner, NetworkInput input)
         {
-            if (characterInputHandler == null && NetworkPlayer.Local != null)
-                characterInputHandler = NetworkPlayer.Local.GetComponent<CharacterInputHandler>();
+            if (characterInputHandler == null && NetworkPlayer.LocalPlayer != null)
+                characterInputHandler = NetworkPlayer.LocalPlayer.GetComponent<CharacterInputHandler>();
 
             if (characterInputHandler != null)
                 input.Set(characterInputHandler.GetNetworkInput());
@@ -142,6 +171,10 @@ namespace Multiplayer
         {
             
         }
+
+        #endregion
+
+        #region FUNCTIONS
 
         #endregion
 

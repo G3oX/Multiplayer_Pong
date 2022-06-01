@@ -7,23 +7,17 @@ using Fusion;
 
 namespace Multiplayer
 {
-    public class MySceneManager : SimulationBehaviour
+    public class MySceneManager : MonoBehaviour
     {
 
-        // Start is called before the first frame update
-        void Start()
+        private void Spawned()
         {
 
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
         }
 
         public void loadMenuScene()
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(0);
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Multiplayer
     public class TurnsManager : MonoBehaviour
     {
 
+        #region SINGLETON
+
         private static TurnsManager _instance;
 
         public static TurnsManager Instance
@@ -22,10 +24,11 @@ namespace Multiplayer
             }
         }
 
+        #endregion
+
         private void Awake()
         {
-            _instance = this;
-            //players = new List<NetworkPlayer>();
+            _instance = this;           
         }
 
         List<NetworkPlayer> players = new List<NetworkPlayer>();

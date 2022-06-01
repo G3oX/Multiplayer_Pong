@@ -13,20 +13,22 @@ namespace Multiplayer
         [SerializeField] float startDelay = 3f;
 
         [Networked] TickTimer delayTimer { get; set; }
-        private bool turnON = false;
+        [Networked] private bool turnON { get; set; }
         private bool firstball;
 
 
-        public void Start()
+        public void Init()
         {
             Invoke("turnON_M", startDelay);
         }
+
 
         // Update is called once per frame
         public override void FixedUpdateNetwork()
         {
             if (!turnON) return;
 
+            // Si no hay ninguna bola activa, lanzamos una bola.
             if (checkForActiveBall() == false)
                 firstball = true;
 
@@ -41,6 +43,11 @@ namespace Multiplayer
         public void turnON_M()
         {
             turnON = true;
+        }
+
+        public void turnOFF_M()
+        {
+            turnON = false;
         }
 
         public bool checkForActiveBall()

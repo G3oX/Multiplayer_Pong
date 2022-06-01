@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Multiplayer;
 
 namespace local
 {
@@ -38,6 +39,11 @@ namespace local
         [SerializeField] Animator tutorialMenuAnim;
         [SerializeField] float delayForDeactivate;
 
+        // Componentes
+        [Header("COMPONENTES")]
+        [Space(1f)]
+        [SerializeField] RoomManager roomManager;
+        [SerializeField] NetworkRunnerHandler networkRunnerHandler; 
 
         #endregion
 
@@ -54,14 +60,16 @@ namespace local
         void Update()
         {
             serverName = inputField.text;
-            Debug.Log(serverName);
+            //Debug.Log(serverName);
         }
 
         #region BUTTONS ACTIONS
 
         public void loadScene(int sceneIndex)
         {
-            SceneManager.LoadScene(sceneIndex);
+            roomManager.roomName = serverName;
+            networkRunnerHandler.Init();
+            //SceneManager.LoadScene(sceneIndex);
         }
 
         public void exitGame()

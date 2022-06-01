@@ -14,7 +14,7 @@ namespace Multiplayer
 
 
         // Network Variables
-        public static NetworkPlayer Local { get; set; }
+        public static NetworkPlayer LocalPlayer { get; set; }
 
         [Networked(OnChanged = nameof(setTurn))]
         public NetworkBool myTurn { get; set; }
@@ -27,7 +27,7 @@ namespace Multiplayer
         {
             if (Object.HasInputAuthority)
             {
-                Local = this;
+                LocalPlayer = this;
                 Debug.Log("Spawned Local Player");
             }
             else Debug.Log("Spawned remote player");
