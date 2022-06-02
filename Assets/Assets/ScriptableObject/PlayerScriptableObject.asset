@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PlayerScriptableObject
   m_EditorClassIdentifier: 
   shootingVectorCorrection: {x: 0, y: 0.2}
-  shootingForce: 15
+  shootingForce: 10

@@ -2845,11 +2845,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1985813480627202156, guid: 48c029fa5f4d1a74ea2dfc686ea13bee, type: 3}
       propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
-      value: -1062476081666551545
+      value: 5134591149114795618
       objectReference: {fileID: 0}
     - target: {fileID: 1985813480627202156, guid: 48c029fa5f4d1a74ea2dfc686ea13bee, type: 3}
       propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
-      value: -7014511175055175501
+      value: 2299512207951972794
       objectReference: {fileID: 0}
     - target: {fileID: 1985813480627202157, guid: 48c029fa5f4d1a74ea2dfc686ea13bee, type: 3}
       propertyPath: gameManager
@@ -2858,10 +2858,6 @@ PrefabInstance:
     - target: {fileID: 1985813480627202159, guid: 48c029fa5f4d1a74ea2dfc686ea13bee, type: 3}
       propertyPath: m_Name
       value: PhysicBallPrefab 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1985813480627202159, guid: 48c029fa5f4d1a74ea2dfc686ea13bee, type: 3}
-      propertyPath: m_TagString
-      value: Ball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48c029fa5f4d1a74ea2dfc686ea13bee, type: 3}
@@ -3704,6 +3700,10 @@ PrefabInstance:
       propertyPath: _ballSpawner
       value: 
       objectReference: {fileID: 6641618054578879393}
+    - target: {fileID: 4335008002997024316, guid: 9a098b7588fea1d4c8b9f1fe4e11abf3, type: 3}
+      propertyPath: _gameSeconds
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 4335008002997024316, guid: 9a098b7588fea1d4c8b9f1fe4e11abf3, type: 3}
       propertyPath: _mySceneManager
       value: 

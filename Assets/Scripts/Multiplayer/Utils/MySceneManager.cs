@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Fusion;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 
 namespace Multiplayer
@@ -38,6 +39,16 @@ namespace Multiplayer
 
         public void loadMenuScene()
         {
+            List<PlayerRef> ActivePlayers = Runner.ActivePlayers.ToList();
+            
+            if(Object.HasStateAuthority)
+            {
+                Runner.Shutdown();
+            }
+            else
+            {
+                Runner.Disconnect(ActivePlayers[1]);                   
+            }
             SceneManager.LoadScene(0);
         }
 
