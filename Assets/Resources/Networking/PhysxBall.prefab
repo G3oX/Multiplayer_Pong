@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   scoreColliderTag: ScoreCollider
+  gameManager: {fileID: 4335008002997024316, guid: 9a098b7588fea1d4c8b9f1fe4e11abf3, type: 3}
 --- !u!1 &8925038071161417297
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ namespace Multiplayer
     public class PlayerShooting : SimulationBehaviour
     {
         // Componentes
+        [Header("Player data stats")]
         [SerializeField]PlayerScritableObject playerScriptableObject;
 
 
@@ -23,6 +24,7 @@ namespace Multiplayer
                     Debug.Log("BALL COLLISION WITH PLAYER");
                     shootBall(getCollisionVector(collision), collision);
 
+                    // Reasignamos turnos
                     TurnsManager.Instance.switchTurns();
                 }
 

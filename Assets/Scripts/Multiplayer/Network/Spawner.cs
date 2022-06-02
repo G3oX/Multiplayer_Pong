@@ -21,18 +21,9 @@ namespace Multiplayer
         [SerializeField] Vector2[] spawnPosition = new Vector2[1];
         private int spawnPositionIndex;
 
-        [Space(2f)]
-        [Header("Players Materials")]
-        [SerializeField] Color p1_normalMatcolor;
-        [SerializeField] Color p2_normalMatcolor;
-
-
         [Tooltip("Radio del GIZMO que representa el punto de reaparición")]
         [SerializeField] float radius;
 
-        // privatdas
-       
-        
         //Otros Componentes
         CharacterInputHandler characterInputHandler;
 
@@ -77,11 +68,11 @@ namespace Multiplayer
                 //Asignamos materiales y turnos
                 if (_spawnedCharacters.Count < 2)
                 {
-                    newPlayer.RPC_setUpMaterials(true);
+                    newPlayer.RPC_configuraAsPlayer1(true);
                 }
                 else
                 {
-                    newPlayer.RPC_setUpMaterials(false);
+                    newPlayer.RPC_configuraAsPlayer1(false);
                 }
             }
             else

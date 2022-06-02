@@ -58,16 +58,15 @@ namespace Multiplayer
      
         }
 
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
+
         [ContextMenu("Activar multijugador")]
         public void activeMultiplayer()
         {
             this.Init();
         }
 
-#endif
-
-
+    #endif
     }
 
 }

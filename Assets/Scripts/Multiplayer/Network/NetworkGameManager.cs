@@ -15,8 +15,10 @@ namespace Multiplayer
         #region VARIABLES
 
         [Header("Varialbes de elementos del HUD")]
-        [SerializeField] float _gameMinutes;
+        [Tooltip("Duración de la partida en segundos")]
+        [SerializeField] float _gameSeconds;
         [SerializeField] float _startCountDownTime;
+        private float _clockTimer;
 
         [Space(2f)]
         [Header("COMPONENTES")]
@@ -28,6 +30,10 @@ namespace Multiplayer
         [Networked] private NetworkBool _isGameStarted { get; set; }
         [Networked] private NetworkBool _startCountDownFinished { get; set; }
 
+        [Networked(OnChanged = nameof(updateHUDscores))]
+        private int score_p1 { get; set; }
+        [Networked(OnChanged = nameof(updateHUDscores))]
+        private int score_p2 { get; set; }
 
         [HideInInspector]
         public int playersCount => Runner.ActivePlayers.ToList().Count;
@@ -40,7 +46,8 @@ namespace Multiplayer
             _isGameStarted = false;
             _startCountDownFinished = false;
             _ballSpawner.turnOFF_M();
-            
+            _clockTimer = _gameSeconds;
+            updateGameClock();
         }
 
         public override void FixedUpdateNetwork()
@@ -57,10 +64,12 @@ namespace Multiplayer
             // Inicializamos la cuenta atrás
             if (!_startCountDownFinished)
                 StartCoroutine(StartcountDown());
-
-            // Cuanta a trás finalizada
-
-
+            else
+            {
+                // Cuanta a trás finalizada. Comienza la partida
+                updateGameClock();
+               
+            }         
         }
 
         /// <summary>
@@ -94,6 +103,43 @@ namespace Multiplayer
 
             _ballSpawner.Init();
             _startCountDownFinished = true;
+        }
+
+        public void updateGameClock()
+        {
+            int minutes = Mathf.FloorToInt(_clockTimer / 60f);
+            int seconds = Mathf.FloorToInt(_clockTimer - minutes * 60f);
+
+            //Debug.Log("MIN: " + (int)minutes + "SEG: " + (int)seconds);
+
+            _mySceneManager.updateClockCountDown(minutes, seconds);
+            _clockTimer -= Runner.DeltaTime;
+        }
+
+        public void resetGameClock()
+        {
+            _clockTimer = _gameSeconds;
+        }
+
+        /// <summary>
+        /// Cada vez que una puntuación sea actualizada ejecutamos esta función que actualiza el HUD.
+        /// </summary>
+        /// <param name="gameManager"></param>
+        public static void updateHUDscores(Changed<NetworkGameManager> gameManager)
+        {
+            gameManager.Behaviour._mySceneManager.updateScores(gameManager.Behaviour.score_p1, gameManager.Behaviour.score_p2);
+        }
+
+        /// <summary>
+        /// Metodo que actualiza las propiedades network de las puntuaciones y las envia por RPC para segurar que se reciben. 
+        /// </summary>
+        /// <param name="score1"> Puntuación añadida para el jugador 1</param>
+        /// <param name="score2"> Puntuación añadida para el jugador 2</param>
+        [Rpc]
+        public void RPC_updatePlayersScore(int score1, int score2)
+        {
+            score_p1 += score1;
+            score_p2 += score2;
         }
 
     }

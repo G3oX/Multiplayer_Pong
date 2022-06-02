@@ -72,6 +72,11 @@ namespace Multiplayer
             players.Add(player);
         }
 
+        public bool isPlayer1Turn()
+        {
+            return players[0].myTurn;
+        }
+
     }
 }
 

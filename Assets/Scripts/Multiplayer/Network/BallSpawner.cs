@@ -175,7 +175,6 @@ namespace Multiplayer
                isActiveBall = checkForActiveBall();
             }
 
-
             if ((shotFrequencyTimer.ExpiredOrNotRunning(Runner) || !isActiveBall) && !_waitingToAnim)
             {
                 // Reseteamos el timer de lanzamientos y el de la animación

@@ -43,9 +43,10 @@ namespace Multiplayer
             _scoreText_p2.text = score_p2.ToString();
         }
 
-        public void updateClockCountDown(float countDown)
+        public void updateClockCountDown(float mins, float seconds)
         {
-            _ClockText.text = countDown.ToString();
+            //_ClockText.text = string.Concat(mins.ToString() + " : " + seconds.ToString());
+            _ClockText.text = string.Format("{0:00}:{1:00}", mins, seconds);
         }
 
         /// <summary>
