@@ -72,11 +72,10 @@ namespace Multiplayer
                 TurnsManager.Instance.addPlayer(newPlayer);
 
                 //Cambiamos la posición de respawn
-                Debug.Log("SpawnIndex" + spawnPositionIndex);
                 spawnPositionIndex++;
 
                 //Asignamos materiales y turnos
-                if (/*_spawnedCharacters.Count < 2*/ spawnPositionIndex < 2)
+                if (_spawnedCharacters.Count < 2)
                 {
                     newPlayer.RPC_setUpMaterials(true);
                 }

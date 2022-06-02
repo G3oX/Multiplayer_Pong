@@ -976,8 +976,9 @@ MonoBehaviour:
   - {fileID: 2002229429}
   - {fileID: 2123360122}
   _ballPrefab: {fileID: 3923123396050505500, guid: 696fa410efaa00e4db657ae706513c11, type: 3}
-  timeToSpawn: 20
-  startDelay: 1
+  ballsContainer: {fileID: 740586428}
+  _animationDelay: 2
+  _frequencyShooting: 10
   _launchForce: 7
 --- !u!4 &740586428
 Transform:
@@ -1110,15 +1111,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  _timerText: {fileID: 1515986508}
-  gameMinutes: 0
-  _scoreP1Text: {fileID: 1379904177}
-  _scoreP2Text: {fileID: 552700345}
-  _countDownObj: {fileID: 1415098317}
-  _countDownTime: 3
-  waitinPlayerMensaje: {fileID: 1369959856}
+  _gameMinutes: 2
+  _startCountDownTime: 3
   _ballSpawner: {fileID: 740586427}
-  roomManager: {fileID: 2010514680201704898, guid: ea56be3e83d7d844d9eba4724d344a65, type: 3}
+  _roomManager: {fileID: 2010514680201704898, guid: ea56be3e83d7d844d9eba4724d344a65, type: 3}
+  _mySceneManager: {fileID: 987583724}
 --- !u!1 &835992480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,8 +1458,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 987583723}
-  - component: {fileID: 987583725}
   - component: {fileID: 987583724}
+  - component: {fileID: 987583726}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -1496,7 +1493,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1c30b0d26ca554da7462c4d399821d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &987583725
+  _interpolationDataSource: 0
+  _scoreText_p1: {fileID: 1379904177}
+  _scoreText_p2: {fileID: 552700345}
+  _ClockText: {fileID: 1515986508}
+  _countDownObj: {fileID: 1415098317}
+  _waitingPlayerMensaje: {fileID: 1369959856}
+--- !u!114 &987583726
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1505,11 +1508,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 987583722}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90a93abf1a391964a94e5c139605105b, type: 3}
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowHierarchyWindowOverlay: 1
-  PostLoadDelayFrames: 1
+  ObjectInterest: 0
+  DefaultInterestGroups: []
+  DestroyWhenStateAuthorityLeaves: 0
+  AllowStateAuthorityOverride: 0
+  AoiPositionSource: {fileID: 0}
+  Flags: 2561
+  NetworkGuid:
+    RawGuidValue: 6feb9cc6ed23492391c641a2785d164b
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 987583724}
+  SimulationBehaviours: []
 --- !u!1 &1015762589
 GameObject:
   m_ObjectHideFlags: 0

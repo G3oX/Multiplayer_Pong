@@ -9,9 +9,10 @@ namespace Multiplayer
     public class PhysxBallMulty : NetworkBehaviour
     {
         [SerializeField] string scoreColliderTag = "ScoreCollider";
-        bool _isActivate = false;
+        [Networked] NetworkBool _isActivate { get; set; }
         bool _addForce = false;
         Vector2 _forceVector = Vector2.zero;
+        bool isCollision;
 
         // Un pequeño delay para que vuelva a detectar colisiones con el jugador
         [Networked] TickTimer delayTimer { get; set; }
@@ -26,15 +27,31 @@ namespace Multiplayer
         }
         private void OnEnable()
         {
+            isCollision = false;
             _isActivate = true;
-            delayTimer = TickTimer.CreateFromSeconds(Runner, 0.2f);
+            //delayTimer = TickTimer.CreateFromSeconds(Runner, 0.2f);
+        }
+
+        public override void Spawned()
+        {
+            isCollision = false;
+            if (!gameObject.activeInHierarchy)
+            {
+                gameObject.SetActive(true);
+                _isActivate = true;
+                _ballRb = GetComponent<Rigidbody2D>();
+            }
         }
 
         public override void FixedUpdateNetwork()
         {
-            if(!_isActivate)
+            if (isCollision)
+                _isActivate = false;
+
+            if (!_isActivate)
             {
                 Deactivate();
+                return;
             }
 
             if (_addForce)
@@ -47,7 +64,6 @@ namespace Multiplayer
                 }
                 _addForce = false;
             }
-
         }
         public void addForceM(Vector2 forceVector)
         {
@@ -69,6 +85,7 @@ namespace Multiplayer
                 {
                     TurnsManager.Instance.switchTurns();
                     _isActivate = false;
+                    isCollision = true;
                 }
             }
         }

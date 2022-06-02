@@ -12,49 +12,55 @@ namespace Multiplayer
     public class NetworkGameManager : NetworkBehaviour
     {
 
-        [Header("Componentes HUD")]
-        [SerializeField] TextMeshProUGUI _timerText;
-        [SerializeField] float gameMinutes;
-        [SerializeField] TextMeshProUGUI _scoreP1Text;
-        [SerializeField] TextMeshProUGUI _scoreP2Text;
-        [SerializeField] GameObject _countDownObj;
-        [SerializeField] float _countDownTime;
+        #region VARIABLES
 
-        [Header("Mensajes Network")]
-        [SerializeField] GameObject waitinPlayerMensaje;
+        [Header("Varialbes de elementos del HUD")]
+        [SerializeField] float _gameMinutes;
+        [SerializeField] float _startCountDownTime;
 
         [Space(2f)]
         [Header("COMPONENTES")]
         [SerializeField] BallSpawner _ballSpawner;
-        [SerializeField] RoomManager roomManager;
+        [SerializeField] RoomManager _roomManager;
+        [SerializeField] MySceneManager _mySceneManager;
 
-        private bool _isGameStarted;       
+        // GAME STATE VARIABLES
+        [Networked] private NetworkBool _isGameStarted { get; set; }
+        [Networked] private NetworkBool _startCountDownFinished { get; set; }
 
 
         [HideInInspector]
         public int playersCount => Runner.ActivePlayers.ToList().Count;
 
+        #endregion
 
-        // Start is called before the first frame update
         public override void Spawned()
         {
-            _countDownObj.SetActive(false);
+            _mySceneManager.switch_startCountDownObject(false);
             _isGameStarted = false;
+            _startCountDownFinished = false;
             _ballSpawner.turnOFF_M();
+            
         }
 
-        // Update is called once per frame
-    
         public override void FixedUpdateNetwork()
         {
             //IEnumerable<PlayerRef> ActivePlayers = Runner.ActivePlayers.ToList();
             
-            awaitingToPlayers();
-
-            if (!_isGameStarted) 
+            if (!_isGameStarted)
+            {
+                // Espseramos a todos los jugadores para iniciar la partida
+                awaitingToPlayers();
                 return;
+            }
 
-            StartCoroutine(StartcountDown());
+            // Inicializamos la cuenta atrás
+            if (!_startCountDownFinished)
+                StartCoroutine(StartcountDown());
+
+            // Cuanta a trás finalizada
+
+
         }
 
         /// <summary>
@@ -63,14 +69,13 @@ namespace Multiplayer
         public void awaitingToPlayers()
         {
 
-            if (playersCount < roomManager.maxPlayers)
+            if (playersCount < _roomManager.maxPlayers)
             {
-                waitinPlayerMensaje.SetActive(true);
+                _mySceneManager.switch_waitingPlayerMensaje(true);
                 return;
             }
 
-            if (waitinPlayerMensaje.activeInHierarchy)
-                waitinPlayerMensaje.SetActive(false);
+            _mySceneManager.switch_waitingPlayerMensaje(false);
 
             _isGameStarted = true;
         }
@@ -81,11 +86,14 @@ namespace Multiplayer
         /// <returns></returns>
         public IEnumerator StartcountDown()
         {
-            _countDownObj.SetActive(true);
-            yield return new WaitForSeconds(_countDownTime);
-            _countDownObj.SetActive(false);
+            _mySceneManager.switch_startCountDownObject(true);
+            yield return new WaitForSeconds(_startCountDownTime);
+
+            Debug.Log("Finalizar corrutina");
+            _mySceneManager.switch_startCountDownObject(false);
 
             _ballSpawner.Init();
+            _startCountDownFinished = true;
         }
 
     }
