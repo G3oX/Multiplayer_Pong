@@ -5,7 +5,7 @@ using Fusion;
 using TMPro;
 using local;
 using System.Linq;
-
+using System;
 
 namespace Multiplayer
 {
@@ -18,7 +18,7 @@ namespace Multiplayer
         [Tooltip("Duración de la partida en segundos")]
         [SerializeField] float _gameSeconds;
         [SerializeField] float _startCountDownTime;
-        private float _clockTimer;
+        [Networked] private float _clockTimer { get; set; }
 
         [Space(2f)]
         [Header("COMPONENTES")]
@@ -26,9 +26,38 @@ namespace Multiplayer
         [SerializeField] RoomManager _roomManager;
         [SerializeField] MySceneManager _mySceneManager;
 
+        [Space(2f)]        
+        [Header("DIFICULATAD CONFIG")]
+        [Header("Intervalos de aumento")]
+
+        #region DIFFICULTY SECTION
+
+        [Range(0, 1)]
+        [Tooltip("Momento de la partida en el que incrementamos la dificultad")]
+        [SerializeField] float increaseDifficulty1At;      
+        [Range(0, 1)]
+        [Tooltip("Segundo aumento de dificultad. Asignar valor superior al 1")]
+        [SerializeField] float increaseDifficulty2At;       
+        [Range(0, 1)]
+        [Tooltip("Tercer aumento de dificutlad. Asigar valor superior al 2")]
+        [SerializeField] float increaseDifficulty3At;
+
+        [Header("Dificultad por intervalo")]
+
+        [Range(4, 10)]
+        [Tooltip("Nuevo tiempo de delay para spawner bolas nuevas")]
+        [SerializeField] float repawnDelayDifficulty1;
+        [Range(4, 10)]
+        [SerializeField] float repawnDelayDifficulty2;
+        [Range(4, 10)]
+        [SerializeField] float repawnDelayDifficulty3;
+
+        #endregion
+
         // GAME STATE VARIABLES
         [Networked] private NetworkBool _isGameStarted { get; set; }
         [Networked] private NetworkBool _startCountDownFinished { get; set; }
+        [Networked] private NetworkBool _isGameEnd { get; set; }
 
         [Networked(OnChanged = nameof(updateHUDscores))]
         private int score_p1 { get; set; }
@@ -48,12 +77,26 @@ namespace Multiplayer
             _ballSpawner.turnOFF_M();
             _clockTimer = _gameSeconds;
             updateGameClock();
+            _isGameEnd = false;
         }
 
         public override void FixedUpdateNetwork()
         {
             //IEnumerable<PlayerRef> ActivePlayers = Runner.ActivePlayers.ToList();
-            
+
+            if (_isGameEnd)
+            {
+                _mySceneManager.switch_gameOverMenu(true);
+                _ballSpawner.turnOFF_M();
+                if (score_p1 > score_p2)
+                    _mySceneManager.RPC_setWinnerName("WINNER PLAYER 1 " + score_p1 + " - " + score_p2);
+                else if(score_p1 < score_p2)
+                    _mySceneManager.RPC_setWinnerName("WINNER PLAYER 2" + score_p2 + " - " + score_p1);
+                else
+                    _mySceneManager.RPC_setWinnerName("DRAW");
+                return;
+            }
+
             if (!_isGameStarted)
             {
                 // Espseramos a todos los jugadores para iniciar la partida
@@ -68,8 +111,40 @@ namespace Multiplayer
             {
                 // Cuanta a trás finalizada. Comienza la partida
                 updateGameClock();
-               
+                updateDifficulty();
+                checkEndGame();
             }         
+        }
+
+        private void checkEndGame()
+        {
+            if (_clockTimer <= 0 && score_p2 != score_p1)
+            {
+                _isGameEnd = true;
+                _mySceneManager.updateClockCountDown(0, 0);
+            }
+            else if(_clockTimer <= 0 && score_p2 == score_p1)
+                _clockTimer += 30;
+                
+        }
+
+        private void updateDifficulty()
+        {
+            if (_clockTimer <= _gameSeconds * (1 - increaseDifficulty3At))
+            {
+                _ballSpawner.RPC_changeSpawnTimeDelay(repawnDelayDifficulty3);
+                Debug.Log("DIFICULTY UPDATED - New spawn delay: " + repawnDelayDifficulty3);
+            }
+            else if (_clockTimer <= _gameSeconds * (1 - increaseDifficulty2At))
+            {
+                _ballSpawner.RPC_changeSpawnTimeDelay(repawnDelayDifficulty2);
+                Debug.Log("DIFICULTY UPDATED - New spawn delay: " + repawnDelayDifficulty2);
+            }
+            else if (_clockTimer <= _gameSeconds * (1 - increaseDifficulty1At))
+            {
+                _ballSpawner.RPC_changeSpawnTimeDelay(repawnDelayDifficulty1);
+                Debug.Log("DIFICULTY UPDATED - New spawn delay: " + repawnDelayDifficulty1);
+            }
         }
 
         /// <summary>

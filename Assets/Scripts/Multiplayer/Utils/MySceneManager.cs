@@ -22,7 +22,11 @@ namespace Multiplayer
         [Space(2f)]
         [Header("Mensajes Network")]
         [SerializeField] GameObject _waitingPlayerMensaje;
-
+        [Space(2f)]
+        [Header("Game Over Menu")]
+        [SerializeField] GameObject _gameOverMenuObj;
+        [SerializeField] TextMeshProUGUI _winnerText;
+        [SerializeField] Button _DisconectButton;
 
 
         #endregion
@@ -45,7 +49,6 @@ namespace Multiplayer
 
         public void updateClockCountDown(float mins, float seconds)
         {
-            //_ClockText.text = string.Concat(mins.ToString() + " : " + seconds.ToString());
             _ClockText.text = string.Format("{0:00}:{1:00}", mins, seconds);
         }
 
@@ -67,7 +70,16 @@ namespace Multiplayer
             _countDownObj.gameObject.SetActive(state);
         }
 
+        public void switch_gameOverMenu(bool state)
+        {
+            _gameOverMenuObj.SetActive(state);
+        }
 
+        [Rpc]
+        public void RPC_setWinnerName(string winerText)
+        {
+            _winnerText.text = winerText;
+        }
 
     }
 }

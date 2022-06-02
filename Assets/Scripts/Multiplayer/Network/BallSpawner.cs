@@ -135,7 +135,7 @@ namespace Multiplayer
         [Tooltip("Transform del objeto donde se crearán las bolas si hiceran falta")]
         [SerializeField] Transform ballsContainer;
         [SerializeField] float _animationDelay = 2f;
-        [SerializeField] float _frequencyShooting = 10f;
+        [SerializeField] public float _startFrecuencyShooting = 10f;
 
         [Header("SPAWN FORCE")]
         [SerializeField] float _launchForce;
@@ -149,7 +149,8 @@ namespace Multiplayer
         //[Networked] private NetworkBool _waitingToAnim { get; set; }
         [Networked] NetworkBool isActiveBall { get; set; }
         bool _waitingToAnim;
-        float _shootingFrequency;
+        
+        [Networked] float _shootingFrequency { get; set; }
         float _dispersionRange;
 
         #endregion
@@ -164,7 +165,7 @@ namespace Multiplayer
         {
             if (!turnON)
             {
-                _shootingFrequency = _frequencyShooting;
+                _shootingFrequency = _startFrecuencyShooting;
                 _waitingToAnim = false;
                 shotFrequencyTimer = TickTimer.CreateFromSeconds(Runner, _shootingFrequency);
                 return;
@@ -184,11 +185,11 @@ namespace Multiplayer
             }
             if (_waitingToAnim)
             {
-                spawnBall();
+                SpawnBall();
             }
         }
 
-        private void spawnBall()
+        private void SpawnBall()
         {
             // Esperamos a que la animación se reproduzca y luego iniciamos el lanzamiento
             if (animDelayTimer.ExpiredOrNotRunning(Runner))
@@ -211,6 +212,7 @@ namespace Multiplayer
                 {
                     Debug.Log("GOT BALL FROM POOL");
                     pollObject.gameObject.SetActive(true);
+                    pollObject.transform.localPosition = Vector3.zero;
                     pollObject.GetComponent<NetworkTransform>().TeleportToPosition(transform.position);
                 }
                 launchBall(pollObject);
@@ -260,9 +262,11 @@ namespace Multiplayer
            return activeBall;          
         }
 
-        public void resetAnimationTimer()
+        [Rpc]
+        public void RPC_changeSpawnTimeDelay(float value)
         {
-            animDelayTimer = TickTimer.CreateFromSeconds(Runner, _animationDelay);
+            Debug.Log("CHANGE DIFICULTY METHOD ->" + value);
+            _shootingFrequency = value;
         }
 
     }
