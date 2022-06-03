@@ -25,6 +25,7 @@ namespace Multiplayer
         [SerializeField] BallSpawner _ballSpawner;
         [SerializeField] RoomManager _roomManager;
         [SerializeField] MySceneManager _mySceneManager;
+        [SerializeField] GameObject _socreBoxCollider;
 
         [Space(2f)]        
         [Header("DIFICULATAD CONFIG")]
@@ -86,10 +87,15 @@ namespace Multiplayer
 
             if (_isGameEnd)
             {
+                //Make sure if there is a live ball it does not score.
+                _socreBoxCollider.SetActive(false);
+
+                //MENU
                 _mySceneManager.switch_gameOverMenu(true);
                 if (!Runner.IsServer)
                     _mySceneManager.switch_disconectButton(false);
 
+                //SHOW SCORES
                 _ballSpawner.turnOFF_M();
                 if (score_p1 > score_p2)
                     _mySceneManager.RPC_setWinnerName("WINNER PLAYER 1:  " + score_p1 + " - " + score_p2);
@@ -97,6 +103,8 @@ namespace Multiplayer
                     _mySceneManager.RPC_setWinnerName("WINNER PLAYER 2:  " + score_p2 + " - " + score_p1);
                 else
                     _mySceneManager.RPC_setWinnerName("DRAW");
+                
+                
                 return;
             }
 
