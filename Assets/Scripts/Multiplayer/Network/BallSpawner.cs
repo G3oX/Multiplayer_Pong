@@ -146,8 +146,9 @@ namespace Multiplayer
         [Networked] TickTimer animDelayTimer { get; set; }
         [Networked] TickTimer shotFrequencyTimer { get; set; }
         [Networked] private NetworkBool turnON { get; set; }
-        //[Networked] private NetworkBool _waitingToAnim { get; set; }
         [Networked] NetworkBool isActiveBall { get; set; }
+        
+        //[Networked] private NetworkBool _waitingToAnim { get; set; }
         bool _waitingToAnim;
         
         [Networked] float _shootingFrequency { get; set; }
