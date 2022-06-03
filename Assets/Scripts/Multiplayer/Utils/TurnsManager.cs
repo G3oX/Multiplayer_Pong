@@ -77,6 +77,11 @@ namespace Multiplayer
             return players[0].myTurn;
         }
 
+        public List<NetworkPlayer> getPlayersList()
+        {
+            return players;
+        }
+
     }
 }
 

@@ -87,11 +87,14 @@ namespace Multiplayer
             if (_isGameEnd)
             {
                 _mySceneManager.switch_gameOverMenu(true);
+                if (!Runner.IsServer)
+                    _mySceneManager.switch_disconectButton(false);
+
                 _ballSpawner.turnOFF_M();
                 if (score_p1 > score_p2)
-                    _mySceneManager.RPC_setWinnerName("WINNER PLAYER 1 " + score_p1 + " - " + score_p2);
+                    _mySceneManager.RPC_setWinnerName("WINNER PLAYER 1:  " + score_p1 + " - " + score_p2);
                 else if(score_p1 < score_p2)
-                    _mySceneManager.RPC_setWinnerName("WINNER PLAYER 2" + score_p2 + " - " + score_p1);
+                    _mySceneManager.RPC_setWinnerName("WINNER PLAYER 2:  " + score_p2 + " - " + score_p1);
                 else
                     _mySceneManager.RPC_setWinnerName("DRAW");
                 return;

@@ -76,21 +76,17 @@ namespace Multiplayer
                 }
             }
             else
-            {
-
                 Debug.Log("OnPlayerJoined");
-            }
-
-
         }
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
         {
             if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
             {
+                Debug.Log("ON PLAYER LEFT");
                 runner.Despawn(networkObject);
                 _spawnedCharacters.Remove(player);
-               
+                spawnPositionIndex--;
             }
         }
 
@@ -120,12 +116,12 @@ namespace Multiplayer
 
         public void OnDisconnectedFromServer(NetworkRunner runner)
         {
-            SceneManager.LoadScene(1);
-
+            SceneManager.LoadScene(0);
             Debug.Log("OnDisconnectedFromServer");
         }
         public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
         {
+            SceneManager.LoadScene(0);
             Debug.Log("OnShutDown");
         }
 

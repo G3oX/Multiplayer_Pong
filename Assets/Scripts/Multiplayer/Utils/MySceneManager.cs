@@ -27,7 +27,7 @@ namespace Multiplayer
         [Header("Game Over Menu")]
         [SerializeField] GameObject _gameOverMenuObj;
         [SerializeField] TextMeshProUGUI _winnerText;
-        [SerializeField] Button _DisconectButton;
+        [SerializeField] Button _disconectButton;
 
 
         #endregion
@@ -43,13 +43,16 @@ namespace Multiplayer
             
             if(Object.HasStateAuthority)
             {
+                Debug.Log("SERVER - DESCONECTO JUGADOR 1 Y CIERRO");
+                Runner.Disconnect(ActivePlayers[1]);
                 Runner.Shutdown();
             }
             else
             {
-                Runner.Disconnect(ActivePlayers[1]);                   
+                Debug.Log("NO SERVER - ME SALGO");
+                //NetworkPlayer player = TurnsManager.Instance.getPlayersList()[1];
+                //player.PlayerLeft(ActivePlayers[1]);
             }
-            SceneManager.LoadScene(0);
         }
 
         public void updateScores(int score_p1,int score_p2)
@@ -86,11 +89,18 @@ namespace Multiplayer
             _gameOverMenuObj.SetActive(state);
         }
 
+        public void switch_disconectButton(bool state)
+        {
+            _disconectButton.gameObject.SetActive(state);
+        }
+
         [Rpc]
         public void RPC_setWinnerName(string winerText)
         {
             _winnerText.text = winerText;
         }
+
+
 
     }
 }
